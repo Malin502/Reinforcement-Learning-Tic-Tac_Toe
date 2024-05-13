@@ -6,7 +6,9 @@ from time import sleep
 import numpy as np
 import math
 
-class get_input:
+
+
+class get_input():
 
     def get_player_input(play_area, first_inputter):
         '''
@@ -48,7 +50,10 @@ class get_input:
             AI_input = random.choice(choosable_area)
             
         elif mode == 1:
-            AI_input = get_ql_action(play_area, choosable_area, q_table, epsilon)
+            
+            from Q_Learning import QLearning
+            
+            AI_input = QLearning.get_ql_action(play_area, choosable_area, q_table, epsilon)
             
         if first_inputter == 1:
             play_area[int(AI_input) - 1] = '×'
