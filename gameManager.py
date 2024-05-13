@@ -248,3 +248,36 @@ class gameManager(QLearning, get_input):
         print('{} win!!!'.format(winner))
         sleep(1)
         return winner, q_table
+    
+    #===================================================================================================
+    
+    def player_vs_player(first_inputter):
+        """
+        プレイヤーとプレイヤーのゲームを実行する関数
+
+        先手(1:プレイヤー1、2:プレイヤー2)を受け取り、ゲームが終了するまで実行する
+        """
+        inputter1 = 'Player1'
+        inputter2 = 'Player2'
+
+        play_area = list(range(1, 10))
+        gameManager.show_play(play_area)
+        inputter_count = first_inputter
+        end_flg = 0
+        while True:
+            if (inputter_count % 2) == 1:
+                print('Player1\'s turn!')
+                play_area, player_input = QLearning.get_player_input(play_area, first_inputter)
+                gameManager.show_play(play_area, inputter1, player_input)
+                winner, end_flg = gameManager.judge(play_area, inputter1)
+                if end_flg:
+                    break
+            elif (inputter_count % 2) == 0:
+                print('Player2\'s turn!')
+                play_area, player_input = QLearning.get_player_input(play_area, first_inputter+1)
+                gameManager.show_play(play_area, inputter2, player_input)
+                winner, end_flg = gameManager.judge(play_area, inputter2)
+                if end_flg:
+                    break
+            inputter_count += 1
+        print('{} win!!!'.format(winner))
