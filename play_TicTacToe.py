@@ -10,10 +10,10 @@ from gameManager import *
 from player_contoroller import *
 from Q_Learning import *
 
-eta = 0.1  # 学習率
+eta = 0.01  # 学習率
 gamma = 0.9  # 時間割引率
 initial_epsilon = 0.5  # ε-greedy法の初期値
-episode = 1000000
+episode = 3000000
 
 
 Q_Learning = QLearning()
@@ -22,7 +22,7 @@ GameManager = gameManager()
 
 
 #mode 0: train, mode 1: ランダム mode 2: Q学習 mode 3: プレイヤー
-mode = 1
+mode = 0
 #order 1: プレイヤーが先手, 2: プレイヤーが後手
 order = 1
 
@@ -31,6 +31,7 @@ if mode == 0:
     # ランダム vs QL(学習)
     # 試行数設定
     winner_list = []
+    q_table = QLearning.make_q_table()
     start = time.time()
     for i in range(episode):
         epsilon = initial_epsilon * (episode-i) / episode

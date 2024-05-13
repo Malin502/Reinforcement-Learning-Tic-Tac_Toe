@@ -112,7 +112,7 @@ class gameManager(QLearning, get_input):
 
     #===================================================================================================
 
-    def randomAI_vs_QLAI(first_inputter, q_table, epsilon=0):
+    def randomAI_vs_QLAI(self, first_inputter, q_table, epsilon=0):
         """
         AI(ランダム)とAI(Q学習)のゲームを実行する関数
 
@@ -251,7 +251,7 @@ class gameManager(QLearning, get_input):
     
     #===================================================================================================
     
-    def player_vs_player(first_inputter):
+    def player_vs_player(self, first_inputter):
         """
         プレイヤーとプレイヤーのゲームを実行する関数
 
