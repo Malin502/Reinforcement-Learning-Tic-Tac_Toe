@@ -6,12 +6,11 @@ from time import sleep
 import numpy as np
 import math
 
-from Q_Learning import QLearning
 from player_contoroller import get_input
 
 
 
-class gameManager(QLearning, get_input):
+class gameManager(get_input):
     
     
     def show_play(play_area, inputter=0, inputted=0):
@@ -73,6 +72,8 @@ class gameManager(QLearning, get_input):
 
         先手(1:プレイヤー、2:AI)を受け取り、ゲームが終了するまで実行する
         """
+        from Q_Learning import QLearning
+        
         inputter1 = 'YOU'
         inputter2 = 'AI'
 
@@ -119,6 +120,7 @@ class gameManager(QLearning, get_input):
         先手(1:AI(ランダム)、2:AI(Q学習))とQテーブルを受け取り、
         ゲームが終了するまで実行する
         """
+        from Q_Learning import QLearning
         inputter1 = 'Random AI'
         inputter2 = 'QL AI'
 
@@ -184,6 +186,7 @@ class gameManager(QLearning, get_input):
 
         先手(1:プレイヤー)、2:AI(Q学習))を受け取り、ゲームが終了するまで実行する
         """
+        from Q_Learning import QLearning
         inputter1 = 'YOU'
         inputter2 = 'QL AI'
 
@@ -267,14 +270,14 @@ class gameManager(QLearning, get_input):
         while True:
             if (inputter_count % 2) == 1:
                 print('Player1\'s turn!')
-                play_area, player_input = QLearning.get_player_input(play_area, first_inputter)
+                play_area, player_input = get_input.get_player_input(play_area, first_inputter)
                 gameManager.show_play(play_area, inputter1, player_input)
                 winner, end_flg = gameManager.judge(play_area, inputter1)
                 if end_flg:
                     break
             elif (inputter_count % 2) == 0:
                 print('Player2\'s turn!')
-                play_area, player_input = QLearning.get_player_input(play_area, first_inputter+1)
+                play_area, player_input = get_input.get_player_input(play_area, first_inputter+1)
                 gameManager.show_play(play_area, inputter2, player_input)
                 winner, end_flg = gameManager.judge(play_area, inputter2)
                 if end_flg:

@@ -22,9 +22,9 @@ GameManager = gameManager()
 
 
 #mode 0: train, mode 1: ランダム mode 2: Q学習 mode 3: プレイヤー
-mode = 0
+mode = 2
 #order 1: プレイヤーが先手, 2: プレイヤーが後手
-order = 1
+order = 2
 
 
 if mode == 0:
@@ -81,8 +81,3 @@ elif mode == 3:
 else:
     print('mode error')
     
-    
-   
-
-
-
