@@ -177,6 +177,7 @@ class gameManager(get_input):
                                     reward, play_area, q_table, end_flg)
             if end_flg:
                 break
+            
             inputter_count += 1
         #print('{} win!!!'.format(winner))
         return winner, q_table
@@ -191,6 +192,7 @@ class gameManager(get_input):
 
         ql_input_list1 = []
         play_area_list1 = []
+        
         ql_input_list2 = []
         play_area_list2 = []
 
@@ -202,6 +204,7 @@ class gameManager(get_input):
         
         while True:
             play_area_tmp = play_area.copy()
+            
             if (inputter_count % 2) == 0:
                 play_area_list1.append(play_area_tmp)
                 play_area, ql_ai_input = get_input.get_AI_input(play_area, first_inputter, mode=1, q_table=q_table1, epsilon=epsilon)

@@ -27,9 +27,9 @@ class get_input():
             else:
                 print('Wrong input!\nChoose a number from' \
                     '{}'.format(choosable_area))
-        if first_inputter == 1:
+        if first_inputter % 2 == 1:
             play_area[play_area.index(player_input)] = '○'
-        elif first_inputter == 2:
+        elif first_inputter % 2 == 0:
             play_area[play_area.index(player_input)] = '×'
         return play_area, player_input
         
@@ -55,9 +55,9 @@ class get_input():
             
             AI_input = QLearning.get_ql_action(play_area, choosable_area, q_table, epsilon)
             
-        if first_inputter == 1:
+        if first_inputter % 2 == 1:
             play_area[int(AI_input) - 1] = '×'
-        elif first_inputter == 2:
+        elif first_inputter % 2 == 0:
             play_area[int(AI_input) - 1] = '○'
             
         return play_area, AI_input
