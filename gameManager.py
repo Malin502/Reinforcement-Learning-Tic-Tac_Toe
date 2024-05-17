@@ -102,6 +102,8 @@ class gameManager(get_input):
         print('{} win!!!'.format(winner))
         
         
+#===================================================================================================
+        
         
     def make_q_table():
         '''
@@ -174,8 +176,60 @@ class gameManager(get_input):
             if end_flg:
                 break
             inputter_count += 1
-        print('{} win!!!'.format(winner))
+        #print('{} win!!!'.format(winner))
         return winner, q_table
+    
+    #===================================================================================================
+    
+    def QLAI_vs_QLAI(self, first_inputter, q_table1, q_table2, epsilon=0):
+        
+        from Q_Learning import QLearning
+        inputter1 = 'QL AI1'
+        inputter2 = 'QL AI2'
+
+        ql_input_list1 = []
+        play_area_list1 = []
+        ql_input_list2 = []
+        play_area_list2 = []
+
+        play_area = list(range(1, 10))
+        inputter_count = first_inputter
+        end_flg = 0
+        reward1 = 0
+        reward2 = 0
+        while True:
+            play_area_tmp = play_area.copy()
+            if (inputter_count % 2) == 0:
+                play_area_list1.append(play_area_tmp)
+                play_area, ql_ai_input = get_input.get_AI_input(play_area, first_inputter, mode=1, q_table=q_table1, epsilon=epsilon)
+                winner, end_flg = gameManager.judge(play_area, inputter1)
+                ql_input_list1.append(ql_ai_input)
+                if winner == inputter1:
+                    reward1 = 1
+                    
+            elif (inputter_count % 2) == 1:
+                play_area_list2.append(play_area_tmp)
+                play_area, ql_ai_input = get_input.get_AI_input(play_area, first_inputter + 1, mode=1, q_table=q_table2, epsilon=epsilon)
+                winner, end_flg = gameManager.judge(play_area, inputter2)
+                ql_input_list2.append(ql_ai_input)
+                if winner == inputter2:
+                    reward2 = 0
+                if end_flg:
+                    reward1 = -1
+                    
+            if end_flg:
+                ql_ai_input_before1 = ql_input_list1[-1]
+                play_area_before1 = play_area_list1[-1]
+                #ql_ai_input_before2 = ql_input_list2[-1]
+                #play_area_before2 = play_area_list2[-1]
+                q_table1 = QLearning.q_learning(play_area_before1, ql_ai_input_before1, reward1, play_area, q_table1, end_flg)
+                #q_table2 = QLearning.q_learning(play_area_before2, ql_ai_input_before2, reward2, play_area, q_table2, end_flg)
+                break
+            inputter_count += 1
+
+        #print('{} win!!!'.format(winner))
+        return winner, q_table1
+        
 
 
     #===================================================================================================
