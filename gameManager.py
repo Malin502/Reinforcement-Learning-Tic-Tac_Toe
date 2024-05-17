@@ -12,8 +12,95 @@ import pygame
 import sys
 
 
+# Global variables
+play_area = list(range(1, 10))
+player = '○'
+running = True
+
+
+
+window = pygame.display.set_mode((350, 420))
+pygame.display.set_caption('Tic Tac Toe with AI')
+        
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+button_color = (100, 200, 100)
+button_rect = pygame.Rect(100, 320, 100, 50)
+
+
+pygame.font.init()
+font_button = pygame.font.Font(None, 40)
+button_text = font_button.render("Fin", True, BLACK)
+font = pygame.font.Font(None, 100)
+
+
+
 
 class gameManager(get_input):
+    
+    
+    
+    @staticmethod
+    def draw_popup(winner):
+        # Darken the screen
+        width = 600
+        height = 600
+        
+        
+        s = pygame.Surface((width, height), pygame.SRCALPHA)   # per-pixel alpha
+        s.fill((0, 0, 0, 128))                                # RGBA
+        window.blit(s, (0, 0))
+        
+        # Draw the popup box
+        popup_rect = pygame.Rect(50, 100, 200, 150)
+        pygame.draw.rect(window, WHITE, popup_rect)
+        
+        # Draw the text
+        font_popup = pygame.font.Font(None, 40)
+        
+        text = font_popup.render("{} win!!".format(winner), True, BLACK)
+        text2 = font_popup.render("Play again?", True, BLACK)
+        window.blit(text, (popup_rect.x + 20, popup_rect.y + 20))
+        window.blit(text2, (popup_rect.x + 20, popup_rect.y + 50))
+        
+        # Draw the buttons
+        yes_button_rect = pygame.Rect(popup_rect.x + 20, popup_rect.y + 90, 60, 40)
+        no_button_rect = pygame.Rect(popup_rect.x + 120, popup_rect.y + 90, 60, 40)
+        
+        pygame.draw.rect(window, button_color, yes_button_rect)
+        pygame.draw.rect(window, button_color, no_button_rect)
+        
+        yes_text = font_popup.render("Yes", True, BLACK)
+        no_text = font_popup.render("No", True, BLACK)
+        
+        window.blit(yes_text, (yes_button_rect.x + 10, yes_button_rect.y + 5))
+        window.blit(no_text, (no_button_rect.x + 15, no_button_rect.y + 5))
+        
+        
+        pygame.display.update()
+        return yes_button_rect, no_button_rect
+    
+    #===================================================================================================
+    
+    def handle_popup_events(yes_button_rect, no_button_rect):
+        start_time = pygame.time.get_ticks()  # 開始時間を記録
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if yes_button_rect.collidepoint(event.pos):
+                        return True
+                    if no_button_rect.collidepoint(event.pos):
+                        return False
+            current_time = pygame.time.get_ticks()
+            if current_time - start_time > 5000:  # 5秒待つ
+                break
+        return False
+                
+                
+    #===================================================================================================
     
     
     def show_play(play_area, inputter=0, inputted=0):
@@ -25,14 +112,6 @@ class gameManager(get_input):
         直前の入力者および入力を受け取り、表示する
         '''
         
-        window = pygame.display.set_mode((350, 350))
-        pygame.display.set_caption('Tic Tac Toe with AI')
-        
-        WHITE = (255, 255, 255)
-        BLACK = (0, 0, 0)
-        
-        pygame.font.init()
-        font = pygame.font.Font(None, 100)
     
         window.fill(WHITE)
         for i in range(0, 9, 3):

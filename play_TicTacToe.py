@@ -85,22 +85,27 @@ elif mode == 1:
 elif mode == 2:
     # プレイヤー vs QL
     # 試行数設定
-    episode = 1
     winner_list = []
 
     q_table = QLearning.make_q_table()
     q_table = Q_Learning.load_q_table('q_table.npy')
 
-    for i in range(episode):
+    
+    continue_flag = True
+    
+    while True:
+        
         epsilon = 0
         winner, q_table = GameManager.player_vs_QLAI(order, q_table, epsilon)
         winner_list.append(winner)
-    
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+        
+        yes_rect, no_rect = gameManager.draw_popup(winner)
+        
+        continue_flag = gameManager.handle_popup_events(yes_rect, no_rect)
+            
+        if continue_flag == False:
+            break
+        
         pygame.display.update()
         
     
