@@ -11,6 +11,9 @@ from gameManager import *
 from player_contoroller import *
 from Q_Learning import *
 
+
+pygame.init()
+
 eta = 0.05  # 学習率
 gamma = 0.8  # 時間割引率
 initial_epsilon = 0.5  # ε-greedy法の初期値
@@ -85,15 +88,20 @@ elif mode == 2:
     episode = 1
     winner_list = []
 
-
     q_table = QLearning.make_q_table()
-
     q_table = Q_Learning.load_q_table('q_table.npy')
 
     for i in range(episode):
         epsilon = 0
         winner, q_table = GameManager.player_vs_QLAI(order, q_table, epsilon)
         winner_list.append(winner)
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        pygame.display.update()
         
     
 elif mode == 3:

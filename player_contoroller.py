@@ -5,6 +5,8 @@ import time
 from time import sleep
 import numpy as np
 import math
+import pygame
+import sys
 
 
 
@@ -13,20 +15,23 @@ class get_input():
     def get_player_input(play_area, first_inputter):
         '''
         プレイヤーから入力を受け付ける関数
-        
-        ゲームの状況を表すリストを受け取り
-        プレイヤーの入力で更新したリストを返す
         '''
-        
         choosable_area = [str(area) for area in play_area if type(area) is int]
-        while(True):
-            player_input = input('Choose a number!>>> \n')
-            if player_input in choosable_area:
-                player_input = int(player_input)
+        player_input = None  # 初期値を設定
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = event.pos
+                    col = x // 100
+                    row = y // 100
+                    player_input = row * 3 + col + 1
+                    if str(player_input) in choosable_area:
+                        break
+            if player_input is not None and str(player_input) in choosable_area:
                 break
-            else:
-                print('Wrong input!\nChoose a number from' \
-                    '{}'.format(choosable_area))
         if first_inputter % 2 == 1:
             play_area[play_area.index(player_input)] = '○'
         elif first_inputter % 2 == 0:

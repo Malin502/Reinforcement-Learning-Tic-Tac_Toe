@@ -8,6 +8,9 @@ import math
 
 from player_contoroller import get_input
 
+import pygame
+import sys
+
 
 
 class gameManager(get_input):
@@ -21,15 +24,22 @@ class gameManager(get_input):
         表示すべきリスト(1～9の数値、○、×から成る)と
         直前の入力者および入力を受け取り、表示する
         '''
+        
+        window = pygame.display.set_mode((350, 350))
+        pygame.display.set_caption('Tic Tac Toe with AI')
+        
+        WHITE = (255, 255, 255)
+        BLACK = (0, 0, 0)
+        
+        pygame.font.init()
+        font = pygame.font.Font(None, 100)
     
-        print('=====================')
-        for i in range(0, 9, 3): # 0, 3, 6が格納される
-            print('|', play_area[i], '|', play_area[i + 1], '|', play_area[i + 2], '|')
-            print('---------------------')
-            
-        if inputter != 0:
-            print('{} choose {}'.format(inputter, inputted))
-        print('===================== \n')
+        window.fill(WHITE)
+        for i in range(0, 9, 3):
+            for j in range(3):
+                text = font.render(str(play_area[i + j]), True, BLACK)
+                window.blit(text, (j * 100 + 50, i // 3 * 100 + 50))
+        pygame.display.update()
     
     
     #===================================================================================================
