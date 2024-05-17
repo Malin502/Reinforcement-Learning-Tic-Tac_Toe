@@ -11,10 +11,10 @@ from gameManager import *
 from player_contoroller import *
 from Q_Learning import *
 
-eta = 0.1  # 学習率
+eta = 0.07  # 学習率
 gamma = 0.8  # 時間割引率
-initial_epsilon = 0  # ε-greedy法の初期値(ゲームするときは0)
-episode = 500000
+initial_epsilon = 0.5  # ε-greedy法の初期値
+episode = 600000
 
 
 Q_Learning = QLearning()
@@ -25,7 +25,7 @@ GameManager = gameManager()
 #mode 0: train, mode 1: ランダム mode 2: Q学習 mode 3: プレイヤー
 mode = 2
 #order 1: プレイヤーが先手, 2: プレイヤーが後手
-order = 2
+order = 1
 
 
 if mode == 0:
@@ -56,14 +56,14 @@ if mode == 0:
 
     print ('elapsed_time:{0}'.format(elapsed_time) + '[sec]')
 
+    num_win_QLAI = winner_list.count('QL AI1') + winner_list.count('QL AI')
 
     print('勝ち回数')
     print('Random AI:{}'.format(winner_list.count('Random AI')))
-    print('QL AI    :{}'.format(winner_list.count('QL AI')))
-    print('QL AI1   :{}'.format(winner_list.count('QL AI1')))
+    print('QL AI1   :{}'.format(num_win_QLAI))
     print('QL AI2   :{}'.format(winner_list.count('QL AI2')))
     print('NOBODY   :{}'.format(winner_list.count('NOBODY')))
-    print('QLの勝率 :{}'.format(winner_list.count('QL AI') / len(winner_list)))
+    print('QLの勝率 :{}'.format(num_win_QLAI / len(winner_list)))
 
 
 elif mode == 1:
@@ -83,7 +83,7 @@ elif mode == 2:
     q_table = Q_Learning.load_q_table('q_table.npy')
 
     for i in range(episode):
-        epsilon = initial_epsilon * (episode-i) / episode
+        epsilon = 0
         winner, q_table = GameManager.player_vs_QLAI(order, q_table, epsilon)
         winner_list.append(winner)
         

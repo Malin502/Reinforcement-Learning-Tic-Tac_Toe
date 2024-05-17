@@ -136,6 +136,7 @@ class gameManager(get_input):
         end_flg = 0
         ql_flg = 0
         reward = 0
+        
         while True:
             # Q学習退避用
             play_area_tmp = play_area.copy()
@@ -159,6 +160,7 @@ class gameManager(get_input):
                     ql_flg = 1
                 play_area_before = play_area_list[-1]
                 ql_ai_input_before = ql_input_list[-1]
+                
             # AI(ランダム)の手番
             elif (inputter_count % 2) == 1:
                 play_area, random_ai_input = get_input.get_AI_input(play_area, 
@@ -197,6 +199,7 @@ class gameManager(get_input):
         end_flg = 0
         reward1 = 0
         reward2 = 0
+        
         while True:
             play_area_tmp = play_area.copy()
             if (inputter_count % 2) == 0:
@@ -225,6 +228,8 @@ class gameManager(get_input):
                 q_table1 = QLearning.q_learning(play_area_before1, ql_ai_input_before1, reward1, play_area, q_table1, end_flg)
                 #q_table2 = QLearning.q_learning(play_area_before2, ql_ai_input_before2, reward2, play_area, q_table2, end_flg)
                 break
+            
+            
             inputter_count += 1
 
         #print('{} win!!!'.format(winner))
@@ -298,8 +303,10 @@ class gameManager(get_input):
                 ql_ai_input_before = ql_input_list[-1]
                 q_table = QLearning.q_learning(play_area_before, ql_ai_input_before,
                                     reward, play_area, q_table, end_flg)
+                
             if end_flg:
                 break
+            
             inputter_count += 1
         gameManager.show_play(play_area)
         print('{} win!!!'.format(winner))
