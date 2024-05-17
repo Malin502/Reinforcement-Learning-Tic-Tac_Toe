@@ -12,7 +12,7 @@ from Q_Learning import *
 
 eta = 0.01  # 学習率
 gamma = 0.9  # 時間割引率
-initial_epsilon = 0.5  # ε-greedy法の初期値
+initial_epsilon = 0  # ε-greedy法の初期値(ゲームするときは0)
 episode = 3000000
 
 
